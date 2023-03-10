@@ -1,16 +1,12 @@
 package sn.mfdev.usermgt.controller;
 
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import sn.mfdev.usermgt.Models.UserModel;
 import sn.mfdev.usermgt.services.UserService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
