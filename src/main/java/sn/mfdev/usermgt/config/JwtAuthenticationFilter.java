@@ -34,9 +34,9 @@ private final JwtService jwtService;
             return;
         }
         jwt = authHeader.substring(7);
-        System.out.println(jwt);
+//        System.out.println(jwt);
         userEmail = jwtService.extractUsername(jwt);
-        System.out.println();
+//        System.out.println();
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){ //the user is not connected
             UserDetails userDetails = this.userService.loadUserByUsername(userEmail);
             if(jwtService.isTokenValid( jwt,userDetails)){
@@ -53,6 +53,7 @@ private final JwtService jwtService;
 
             }
         }
+
         filterChain.doFilter(request,response);
     }
 }

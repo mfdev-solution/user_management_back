@@ -4,18 +4,21 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import sn.mfdev.usermgt.doa.UserDao;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserModel implements UserDetails {
+public class UserModel  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +35,12 @@ public class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of( new SimpleGrantedAuthority(role));
+//        System.out.println(role);
+        return Arrays.stream(
+                        getRole()
+                        .split(","))
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
     @Override

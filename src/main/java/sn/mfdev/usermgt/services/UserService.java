@@ -2,10 +2,8 @@ package sn.mfdev.usermgt.services;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sn.mfdev.usermgt.Models.SecurityUser;
 import sn.mfdev.usermgt.Models.UserModel;
@@ -35,8 +33,8 @@ public class UserService implements UserDetailsService {
             return user.get();
         return null;
     }
-    public UserModel findByUsername(String name){
-        Optional<UserModel> userModel = repository.findByName(name);
+    public UserModel findByEmail(String name){
+        Optional<UserModel> userModel = repository.findByEmail(name);
         if(userModel.isPresent())
             return userModel.get();
         return  null;
@@ -54,11 +52,12 @@ public class UserService implements UserDetailsService {
         Optional<UserModel> user = repository.findById(id);
         if(user.isPresent()){
             UserModel userModel = user.get();
-            userModel.setEmail(newUser.getEmail()!=null? newUser.getEmail() : userModel.getEmail() );
-            userModel.setName(newUser.getName()!=null? newUser.getName() : userModel.getName());
-            userModel.setAge(newUser.getAge() != 0 ? newUser.getAge() : userModel.getAge());
-            userModel.setPassword(newUser.getPassword()!= null?newUser.getPassword(): userModel.getPassword() );
-            userModel.setRole(newUser.getRole()!= null? newUser.getRole() : userModel.getRole());
+            userModel.setEmail(newUser.getEmail());
+            userModel.setName(newUser.getName());
+            userModel.setAge(newUser.getAge());
+            userModel.setPassword(newUser.getPassword() );
+//            System.out.println(newUser.getAuthorities());
+            userModel.setRole(newUser.getAuthorities().toString());
             return repository.save(userModel);
         }
         return null;

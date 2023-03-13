@@ -4,13 +4,14 @@ package sn.mfdev.usermgt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
+import sn.mfdev.usermgt.Models.User;
 import sn.mfdev.usermgt.Models.UserModel;
 import sn.mfdev.usermgt.services.UserService;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("/userapi")
 @EnableMethodSecurity
 public class UserController {
@@ -26,6 +27,10 @@ public class UserController {
     public UserModel getAUser(@PathVariable (value = "id") Long id){
         return  userService.findAUser(id);
     }
+//    @GetMapping("/users/{email}")
+//    public UserModel findUserByEmail(@PathVariable(value = "email") String email){
+//        return  userService.findByEmail(email);
+//    }
     @PostMapping("/users")
     public UserModel addUser(@RequestBody UserModel userModel){
         return  userService.addUser(userModel);
@@ -34,6 +39,7 @@ public class UserController {
     public UserModel updateUser(@PathVariable("id") Long id, @RequestBody UserModel newUser){
         return  userService.updateUser(id,newUser);
     }
+
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable("id") Long id){
