@@ -4,7 +4,6 @@ package sn.mfdev.usermgt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
-import sn.mfdev.usermgt.Models.User;
 import sn.mfdev.usermgt.Models.UserModel;
 import sn.mfdev.usermgt.services.UserService;
 
