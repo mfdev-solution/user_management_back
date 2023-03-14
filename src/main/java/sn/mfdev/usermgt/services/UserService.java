@@ -1,9 +1,10 @@
 package sn.mfdev.usermgt.services;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sn.mfdev.usermgt.Models.SecurityUser;
 import sn.mfdev.usermgt.Models.UserModel;
@@ -16,11 +17,14 @@ import java.util.Optional;
 @Getter
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
+
+    public UserService(UserRepository repository, RoleService roleService) {
+        this.repository = repository;
+        this.roleService = roleService;
+    }
 
     public List<UserModel> allUsers(){
         
@@ -41,6 +45,11 @@ public class UserService implements UserDetailsService {
     }
 
     public UserModel  addUser(UserModel userModel){
+        if (userModel.getPassword() == null){
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            userModel.setPassword(passwordEncoder.encode("passer"));
+        }
+
         return repository.save(userModel);
     }
 
